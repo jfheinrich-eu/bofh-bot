@@ -1,0 +1,35 @@
+{
+  "name": "bofh-api",
+  "version": "1.0.0",
+  "description": "Discord bot for BOFH REST API",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.ts",
+    "build": "tsup src/index.ts --minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/jfheinrich-eu/discord.bots/bofh-api.git"
+  },
+  "keywords": [
+    "discord",
+    "bot"
+  ],
+  "author": "Joerg Heinrich",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/jfheinrich-eu/discord.bots/bofh-api/issues"
+  },
+  "homepage": "https://gitlab.com/jfheinrich-eu/discord.bots/bofh-api#readme",
+  "dependencies": {
+    "discord.js": "^14.18.0",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.8",
+    "tsup": "^8.4.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}
