@@ -21,7 +21,7 @@ export async function deployCommands({ guildId }: DeployCommandsProps) {
             }
         );
 
-        console.log("Successfully reloaded application (&/) commands.");
+        console.log("Successfully reloaded application (/) commands.");
     } catch (error) {
         console.error(error);
     }
