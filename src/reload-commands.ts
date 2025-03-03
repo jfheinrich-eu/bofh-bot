@@ -6,7 +6,7 @@ import path from "node:path";
 import fs, { lstatSync } from "node:fs";
 
 const commandsList = [];
-const foldersPath = path.join(__dirname, 'commands');
+const foldersPath = path.join(config.BOT_BASE_DIR, 'commands/slash');
 const commandsFolders = fs.readdirSync(foldersPath).filter(folder => {
     const checkPath = path.join(foldersPath, folder);
     try {
