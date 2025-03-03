@@ -1,6 +1,6 @@
 import { Client } from "discord.js";
 import { deployCommands } from "./deploy-commands";
-import { commands } from "./commands";
+import { slashcommands } from "./commands/index";
 import { config } from "./config";
 
 const client = new Client({
@@ -20,10 +20,10 @@ client.on("interactionCreate", async (interaction) => {
         return;
     }
 
-    const { commandName } = interaction;
+    const commandName = interaction.commandName.replace('-', '_');
 
-    if (commands[commandName as keyof typeof commands]) {
-        commands[commandName as keyof typeof commands].execute(interaction);
+    if (slashcommands[commandName as keyof typeof slashcommands]) {
+        slashcommands[commandName as keyof typeof slashcommands].execute(interaction);
     }
 });
 

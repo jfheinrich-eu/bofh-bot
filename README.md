@@ -9,7 +9,7 @@ story via the BOFH REST API.
 #### Get one quote from BOFH REST API
 
 ```discord
-  /ti-excuses
+  /it-excuses
 ```
 
 | Parameter | Type     | Description                |
@@ -22,6 +22,11 @@ story via the BOFH REST API.
   /ping
 ```
 
+#### Administration command to reload and update (/) commands
+
+```discord
+  /reload-commands
+```
 
 ## Authors
 
