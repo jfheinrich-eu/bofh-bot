@@ -1,4 +1,4 @@
-import { ApplicationIntegrationType, CommandInteraction, InteractionContextType, SlashCommandBuilder, SlashCommandStringOption } from "discord.js";
+import { ApplicationIntegrationType, CommandInteraction, InteractionContextType, SlashCommandBuilder } from "discord.js";
 import { bofhApiCall, bofhExcuse } from "../../../lib/bofhApiCall";
 import { translateMessage } from "../../../lib/translateMessage";
 
@@ -19,13 +19,13 @@ export const data = new SlashCommandBuilder()
 export async function execute(interaction: CommandInteraction) {
     const language:string = interaction.options.get('language')?.value?.toString() ?? "en";
     const resItExcuse = await bofhApiCall();
-    var jsonResponse: bofhExcuse = JSON.parse('{"id": 0, "quote": "no response from REST API", "source": "na", "date": "na"}');
+    let jsonResponse: bofhExcuse = JSON.parse('{"id": 0, "quote": "no response from REST API", "source": "na", "date": "na"}');
 
     if (resItExcuse !== undefined && resItExcuse.length > 0) {
         jsonResponse = resItExcuse[0];
     }
 
-    var responseContent = `IT excuse: ${jsonResponse.quote}`;
+    let responseContent = `IT excuse: ${jsonResponse.quote}`;
     if (language !== 'en') {
         responseContent = (await translateMessage(responseContent, language)).toString();
     }
