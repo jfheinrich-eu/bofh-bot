@@ -28,3 +28,5 @@ branches:
   - main
   - master
 tagFormat: '${version}'
+commit-spec: conventionalcommits
+changelog-enabled: true
