@@ -4,7 +4,7 @@ dotenv.config();
 
 const { DISCORD_TOKEN, DISCORD_CLIENT_ID, GUILD_ID, TRANSLATOR_URL } = process.env;
 
-if (!DISCORD_TOKEN || !DISCORD_CLIENT_ID || !GUILD_ID || !TRANSLATOR_URL) {
+if (!DISCORD_TOKEN || !DISCORD_CLIENT_ID || !GUILD_ID || !TRANSLATOR_URL) {
     throw new Error("Missing environment variables");
 }
 

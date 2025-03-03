@@ -7,7 +7,8 @@
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.ts",
     "build": "tsup src/index.ts --minify",
-    "reload-commands": "tsx src/reload-commands"
+    "reload-commands": "tsx src/reload-commands",
+    "es-lint": "npx eslint src"
   },
   "repository": {
     "type": "git",
@@ -28,9 +29,12 @@
     "dotenv": "^16.4.7"
   },
   "devDependencies": {
+    "@eslint/js": "^9.21.0",
     "@types/node": "^22.13.8",
+    "eslint": "^9.21.0",
     "tsup": "^8.4.0",
     "tsx": "^4.19.3",
-    "typescript": "^5.8.2"
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.25.0"
   }
 }

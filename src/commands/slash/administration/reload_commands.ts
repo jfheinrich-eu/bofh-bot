@@ -1,6 +1,5 @@
 import { CommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import { Client, REST, Routes } from "discord.js";
-import { deployCommands } from "../../../deploy-commands";
+import { REST, Routes } from "discord.js";
 import { slashcommands } from "../../index";
 import { config } from "../../../config";
 import path from "node:path";
@@ -19,6 +18,7 @@ export async function execute(interaction: CommandInteraction) {
         try {
             return fs.lstatSync(checkPath).isDirectory();
         } catch (err) {
+            console.log(err);
             return false;
         }
     });
@@ -29,8 +29,8 @@ export async function execute(interaction: CommandInteraction) {
 
         for (const file of commandFiles) {
             const filePath = path.join(commandsPath, file);
-            const command = require(filePath);
-
+            const command = await import(filePath);
+            console.log(command);
             if ('data' in command && 'execute' in command) {
                 commandsList.push(command.data.toJSON());
             } else {
