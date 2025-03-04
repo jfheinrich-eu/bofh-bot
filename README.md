@@ -31,4 +31,3 @@ story via the BOFH REST API.
 ## Authors
 
 - [@j.f.heinrich](https://gitlab.com/j.f.heinrich)
-
