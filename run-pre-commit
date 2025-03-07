@@ -1,0 +1,6 @@
+#!/bin/bash
+
+ENTRYPOINT_PARAMS="--no-build-in-config"
+PRE_COMMIT_PARAMS="run --color always --config .pre-commit-ci.yaml --files $(git ls-files src/)"
+
+docker run --rm -v $(pwd):/builds jfheinrich/pre-commit:1.0.0 ${ENTRYPOINT_PARAMS} --env SKIP="check-executables-have-shebangs" -- ${PRE_COMMIT_PARAMS}

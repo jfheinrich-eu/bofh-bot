@@ -20,3 +20,11 @@ include:
     inputs:
       changelog-enabled: true # ⚠ this is only an example
       commit-spec: conventionalcommits
+
+pre-commit:
+  stage: test
+  image:
+    name: jfheinrich/pre-commit:1.0.0
+    entrypoint: [""]
+  script:
+    - pre-commit run --color always --config .pre-commit-ci.yaml --files $(git ls-files src/)
