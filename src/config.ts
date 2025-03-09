@@ -2,9 +2,9 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const { DISCORD_TOKEN, DISCORD_CLIENT_ID, GUILD_ID, TRANSLATOR_URL } = process.env;
+const { DISCORD_TOKEN, DISCORD_CLIENT_ID, GUILD_ID, TRANSLATOR_URL, ENVIRONMENT } = process.env;
 
-if (!DISCORD_TOKEN || !DISCORD_CLIENT_ID || !GUILD_ID || !TRANSLATOR_URL) {
+if (!DISCORD_TOKEN || !DISCORD_CLIENT_ID || !GUILD_ID || !TRANSLATOR_URL || !ENVIRONMENT) {
     throw new Error("Missing environment variables");
 }
 
@@ -16,4 +16,5 @@ export const config = {
     GUILD_ID,
     TRANSLATOR_URL,
     BOT_BASE_DIR,
+    ENVIRONMENT,
 };

@@ -2,7 +2,7 @@ import { ApplicationIntegrationType, CommandInteraction, InteractionContextType,
 import { bofhApiCall, bofhExcuse } from "../../../lib/bofhApiCall";
 import { translateMessage } from "../../../lib/translateMessage";
 
-export const data = new SlashCommandBuilder()
+const data = new SlashCommandBuilder()
     .setName("it-excuses")
     .setDescription("Get IT excuses via BOFH REST API")
     .addStringOption(option =>
@@ -16,7 +16,7 @@ export const data = new SlashCommandBuilder()
     .setContexts(InteractionContextType.Guild, InteractionContextType.BotDM, InteractionContextType.PrivateChannel)
     .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall);
 
-export async function execute(interaction: CommandInteraction) {
+async function execute(interaction: CommandInteraction) {
     const language:string = interaction.options.get('language')?.value?.toString() ?? "en";
     const resItExcuse = await bofhApiCall();
     let jsonResponse: bofhExcuse = JSON.parse('{"id": 0, "quote": "no response from REST API", "source": "na", "date": "na"}');
@@ -33,4 +33,9 @@ export async function execute(interaction: CommandInteraction) {
     responseContent += "📟";
 
     return interaction.reply(responseContent);
+}
+
+export default {
+    data,
+    execute,
 }

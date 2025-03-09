@@ -5,8 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "start": "node dist/index.ts",
-    "build": "tsup src/index.ts --minify",
+    "start": "cd dist && node index.js",
+    "build": "tsup src/index.ts --minify && mkdir -p dist/assets && cp src/assets/* dist/assets/",
     "reload-commands": "tsx src/reload-commands",
     "es-lint": "npx eslint src"
   },
@@ -26,7 +26,8 @@
   "homepage": "https://gitlab.com/jfheinrich-eu/discord.bots/bofh-api#readme",
   "dependencies": {
     "discord.js": "^14.18.0",
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "type-fest": "^4.37.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

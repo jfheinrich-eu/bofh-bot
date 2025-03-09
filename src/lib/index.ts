@@ -1,9 +1,11 @@
 import { capitalize } from "./capitalize";
 import { bofhApiCall } from "./bofhApiCall";
 import { translateMessage } from "./translateMessage";
+import { getSlashCommands } from "./getSlashCommands";
 
 export const utils = {
-    capitalize,
     bofhApiCall,
+    capitalize,
+    getSlashCommands,
     translateMessage,
 };

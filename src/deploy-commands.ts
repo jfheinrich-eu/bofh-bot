@@ -1,6 +1,6 @@
 import { REST, Routes } from "discord.js";
 import { config } from "./config";
-import { slashcommands } from "./commands";
+import { slashcommands } from "./commands/index";
 
 const commandsData = Object.values(slashcommands).map((command) => command.data);
 
