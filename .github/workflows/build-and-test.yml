@@ -1,0 +1,35 @@
+name: Build & Test
+permissions:
+  contents: read
+  packages: read
+  security-events: write
+
+on:
+  push:
+    branches-ignore:
+      - main
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare Node.js environment
+        uses: actions/setup-node@v4.1.0
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build bot
+        run: npm run build
+
+      - name: Run code style checks
+        run: npm run es-lint
