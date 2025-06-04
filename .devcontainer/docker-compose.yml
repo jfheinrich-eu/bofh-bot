@@ -1,0 +1,34 @@
+services:
+  bot:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ${HOSTHOME}/.ssh:/home/vscode/.ssh:rw
+      - ${HOSTHOME}/.gitconfig:/home/vscode/.gitconfig:rw
+      - ${HOSTHOME}/.gnupg:/home/vscode/.gnupg:rw
+      - ..:/workspace:cached
+    environment:
+      - LIBRETRANSLATE_URL=http://libretranslate:5000
+    env_file:
+      - .devcontainer/.env
+    depends_on:
+      - libretranslate
+    ports:
+      - 3000:3000
+    networks:
+      - botnet
+
+  libretranslate:
+    image: libretranslate/libretranslate:latest
+    restart: unless-stopped
+    ports:
+      - 5000:5000
+    environment:
+      - TZ=Europe/Berlin
+    networks:
+      - botnet
+
+networks:
+  botnet:
+    driver: bridge
