@@ -1,4 +1,3 @@
-
 # Discord bot bofh-api
 
 Small bot that return sayings from the “Bastard operator from hell”
@@ -12,8 +11,8 @@ story via the BOFH REST API.
   /it-excuses
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
+| Parameter  | Type     | Description                            |
+| :--------- | :------- | :------------------------------------- |
 | `language` | `string` | **Optional**. English,German or France |
 
 #### Test command, answers with a "Pong!"
@@ -30,4 +29,4 @@ story via the BOFH REST API.
 
 ## Authors
 
-- [@j.f.heinrich](https://gitlab.com/j.f.heinrich)
+- [@jfheinrich](https://github.com/jfheinrich)
