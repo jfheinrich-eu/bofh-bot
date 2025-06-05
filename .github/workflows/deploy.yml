@@ -1,0 +1,96 @@
+name: Deploy Docker Container
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Get DockerHub Registry Secrets
+        id: dockerhub-registry-secrets
+        uses: jfheinrich-eu/psono-secret-whisperer@v1.0.0
+        with:
+          ci_api_key_id: ${{ secrets.PSONO_API_KEY_ID }}
+          ci_api_secret_key_hex: ${{ secrets.PSONO_API_SECRET_KEY_HEX }}
+          ci_server_url: ${{ vars.PSONO_SERVER_URL }}
+          secret_id: ${{ secrets.PSONO_DOCKERHUB_REGISTRY_ID }}
+          secret_type: "env"
+          secret_fields: "CI_REGISTRY,CI_REGISTRY_USER,CI_REGISTRY_PASSWORD,CI_REGISTRY_IMAGE_PREFIX"
+          mask_secrets: CI_REGISTRY_USER,CI_REGISTRY_PASSWORD
+
+      - name: Get GitHub Token
+        id: github-token
+        uses: jfheinrich-eu/psono-secret-whisperer@v1.0.0
+        with:
+          ci_api_key_id: ${{ secrets.PSONO_API_KEY_ID }}
+          ci_api_secret_key_hex: ${{ secrets.PSONO_API_SECRET_KEY_HEX }}
+          ci_server_url: ${{ vars.PSONO_SERVER_URL }}
+          secret_id: ${{ secrets.PSONO_GITHUB_CLI_TOKEN }}
+          secret_type: "secret"
+          secret_fields: "password"
+          mask_secrets: password
+
+      - name: Get Deployment Server Secrets
+        id: deployment-secrets
+        uses: jfheinrich-eu/psono-secret-whisperer@v1.0.0
+        with:
+          ci_api_key_id: ${{ secrets.PSONO_API_KEY_ID }}
+          ci_api_secret_key_hex: ${{ secrets.PSONO_API_SECRET_KEY_HEX }}
+          ci_server_url: ${{ vars.PSONO_SERVER_URL }}
+          secret_id: ${{ secrets.BOFH_BOT_DEPLOYMENT_SERVER_ID }}
+          secret_type: "env"
+          secret_fields: "DEPLOY_HOST,DEPLOY_USER,DEPLOY_KEY"
+          mask_secrets: DEPLOY_KEY
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3.4.0
+        with:
+          username: ${{ steps.dockerhub-registry-secrets.outputs.secret2 }}
+          password: ${{ steps.dockerhub-registry-secrets.outputs.secret3 }}
+          ecr: auto
+          logout: true
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6.15.0
+        with:
+          context: .
+          file: .devcontainer/Dockerfile
+          platforms: linux/386, linux/amd64, linux/arm64
+          push: true
+          tags: |
+            ${{ steps.dockerhub-registry-secrets.outputs.secret2 }}/bofh-bot:${{ github.ref_name }}
+            ${{ steps.dockerhub-registry-secrets.outputs.secret2 }}/bofh-bot:latest
+
+      - name: Update repo description
+        uses: peter-evans/dockerhub-description@v4
+        with:
+          username: ${{ steps.dockerhub-registry-secrets.outputs.secret2 }}
+          password: ${{ steps.dockerhub-registry-secrets.outputs.secret3 }}
+          repository: ${{ steps.dockerhub-registry-secrets.outputs.secret2 }}/bofh-bot
+          short-description: ${{ github.event.repository.description }}
+          enable-url-completion: true
+
+      - name: Deploy on remote server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ steps.deployment-secrets.outputs.secret1 }}
+          username: ${{ steps.deployment-secrets.outputs.secret2 }}
+          key: ${{ steps.deployment-secrets.outputs.secret3 }}
+          script: |
+            cd /opt/docker/bofh-bot
+            docker compose pull
+            docker compose up --build -d

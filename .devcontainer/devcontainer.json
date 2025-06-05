@@ -1,0 +1,38 @@
+{
+  "name": "Discord Bot DevContainer",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "bot",
+  "workspaceFolder": "/workspace",
+  "features": {},
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      },
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-typescript-next",
+        "mikestead.dotenv",
+        "eamodio.gitlens",
+        "editorconfig.editorconfig",
+        "christian-kohler.path-intellisense",
+        "eg2.vscode-npm-script",
+        "github.vscode-pull-request-github",
+        "redhat.vscode-yaml",
+        "yzhang.markdown-all-in-one",
+        "redjue.git-commit-plugin",
+        "github.vscode-github-actions"
+      ]
+    }
+  },
+  "postCreateCommand": "npm install",
+  "forwardPorts": [
+    3000,
+    5000
+  ],
+  "remoteEnv": {
+    "LIBRETRANSLATE_URL": "http://libretranslate:5000"
+  },
+  "remoteUser": "vscode"
+}
